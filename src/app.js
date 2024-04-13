@@ -11,18 +11,17 @@ import viewsRouter from "./routes/views.router.js";
 import usersRouter from "./routes/users.router.js";
 import __dirname from "./utils.js";
 import initializePassport from "./config/passport.config.js";
+import configEnv from "./config/config.js";
 
 const app = express();
-const PORT = 8080;
+const PORT = configEnv.port;
 
 app.listen(PORT, () => {
   console.log(`servidor escuchando en el puerto ${PORT}`);
 });
 
 mongoose
-  .connect(
-    "mongodb+srv://ramiro:ramiro77@codercluster.smyhhqs.mongodb.net/ecommerce?retryWrites=true&w=majority"
-  )
+  .connect(configEnv.mongoURL)
   .then(() => {
     console.log("Conectado a la base de datos!");
   })
