@@ -1,78 +1,23 @@
 import { Router } from "express";
-import CartManagerDB from "../dao/CartManagerDB.js";
+import CartController from "../controllers/cart.controller.js";
 
 const cartsRouter = Router();
+const {
+  newCart,
+  loadCart,
+  addProductInCart,
+  removeProductFromCart,
+  updateCartItems,
+  updateQuantityItemCart,
+  removeAllProductsFromCart
+} = new CartController;
 
-cartsRouter.post("/api/carts", async (req, res) => {
-  try {
-    const cartManager = new CartManagerDB();
-    const resp = await cartManager.newCart();
-    res.send(resp);
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});
-  }
-});
-
-cartsRouter.get("/api/carts/:cid", async (req, res) => {
-  try {
-    const cartManager = new CartManagerDB();
-    const resp = await cartManager.loadCart(req.params.cid);
-    res.send(resp);
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});
-  }
-});
-
-cartsRouter.post("/api/carts/:cid/product/:pid", async (req, res) => {
-  try {
-    const cartManager = new CartManagerDB();
-    const resp = await cartManager.addProdInCart(req.params.cid, req.params.pid);
-    res.send(resp);    
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});
-  }
-});
-
-cartsRouter.delete("/api/carts/:cid/products/:pid", async (req,res) => {
-  try {
-    const cartManager = new CartManagerDB();
-    const resp = await cartManager.deleteProductFromCart(req.params.cid, req.params.pid);
-    res.send(resp);
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});
-  }
-});
-
-cartsRouter.put("/api/carts/:cid", async (req,res) =>{
-  try {
-    const cartManager = new CartManagerDB();
-    const resp = await cartManager.updateCartItems(req.params.cid, req.body);
-    res.send(resp);
-
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});
-  }
-});
-
-cartsRouter.put("/api/carts/:cid/products/:pid", async (req,res) =>{
-  try {
-    const cartManager = new CartManagerDB();
-    const resp = await cartManager.updateQuantityItemCart(req.params.cid, req.params.pid, req.body.quantity);
-    res.send(resp);
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});
-  }
-});
-
-cartsRouter.delete("/api/carts/:cid", async (req,res) =>{
-  try {
-    const cartManager = new CartManagerDB();
-    const resp = await cartManager.deleteAllProductsFromCart(req.params.cid);
-    res.send(resp);
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});
-  }
-});
-
+cartsRouter.post("/api/carts", newCart);
+cartsRouter.get("/api/carts/:cid", loadCart);
+cartsRouter.post("/api/carts/:cid/product/:pid", addProductInCart);
+cartsRouter.delete("/api/carts/:cid/products/:pid", removeProductFromCart);
+cartsRouter.put("/api/carts/:cid", updateCartItems);
+cartsRouter.put("/api/carts/:cid/products/:pid", updateQuantityItemCart);
+cartsRouter.delete("/api/carts/:cid", removeAllProductsFromCart);
 
 export default cartsRouter;

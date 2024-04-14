@@ -1,16 +1,11 @@
 import { Router } from "express";
-import ChatManagerDB from "../dao/ChatManagerDB.js";
+import ChatController from "../controllers/chat.controller.js";
 
 const chatsRouter = Router();
+const {
+  sendMsg
+} = new ChatController();
 
-chatsRouter.post("/api/chat", async(req,res)=>{
-  try {
-    const chatManager = new ChatManagerDB();
-    const resp = await chatManager.sendMsg(req.body);
-    res.send(resp);
-  } catch (error) {
-    res.send({status: "error", message: "Error en ejecución, " + error});    
-  }
-});
+chatsRouter.post("/api/chat", sendMsg);
 
 export default chatsRouter;

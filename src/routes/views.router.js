@@ -1,7 +1,7 @@
 import {Router} from "express";
 
-import ProductManagerDB from "../dao/ProductManagerDB.js";
-import CartManagerDB from "../dao/CartManagerDB.js";
+// import ProductManagerDB from "../dao/ProductManagerDB.js";
+// import CartManagerDB from "../dao/CartManagerDB.js";
 
 const viewsRouter = Router();
 

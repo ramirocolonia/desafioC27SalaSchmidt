@@ -11,17 +11,17 @@ import viewsRouter from "./routes/views.router.js";
 import usersRouter from "./routes/users.router.js";
 import __dirname from "./utils.js";
 import initializePassport from "./config/passport.config.js";
-import configEnv from "./config/config.js";
+import config from "./config/config.js";
 
 const app = express();
-const PORT = configEnv.port;
+const PORT = config.port;
 
 app.listen(PORT, () => {
   console.log(`servidor escuchando en el puerto ${PORT}`);
 });
 
 mongoose
-  .connect(configEnv.mongoURL)
+  .connect(config.mongoURL)
   .then(() => {
     console.log("Conectado a la base de datos!");
   })
