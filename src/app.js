@@ -1,5 +1,4 @@
 import express from "express";
-import mongoose from "mongoose";
 import handlebars from "express-handlebars";
 import cookieParser from "cookie-parser";
 import passport from "passport";
@@ -12,6 +11,7 @@ import usersRouter from "./routes/users.router.js";
 import __dirname from "./utils.js";
 import initializePassport from "./config/passport.config.js";
 import config from "./config/config.js";
+import MongoConnection from "./config/MongoConnection.js";
 
 const app = express();
 const PORT = config.port;
@@ -20,15 +20,7 @@ app.listen(PORT, () => {
   console.log(`servidor escuchando en el puerto ${PORT}`);
 });
 
-mongoose
-  .connect(config.mongoURL)
-  .then(() => {
-    console.log("Conectado a la base de datos!");
-  })
-  .catch((error) => {
-    console.error("Error al conectarse a la base de datos", error);
-    process.exit();
-  });
+const mongoConnection = MongoConnection.getInstance();
 
 app.use(express.json());
 app.use(cookieParser());
